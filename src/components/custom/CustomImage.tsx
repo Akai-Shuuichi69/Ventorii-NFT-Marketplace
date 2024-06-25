@@ -1,5 +1,6 @@
 import Image, { ImageProps } from 'next/image';
 import { useEffect, useState } from 'react';
+import logo from '../../../public/images/logo.png';
 
 export interface ICustomImageProps extends ImageProps {
   defaultImage?: string;
@@ -19,9 +20,9 @@ const CustomImage = ({
 
   return (
     <Image
-      src={imgSrc || '/images/logo-main.png'}
+      src={imgSrc || logo}
       onError={() => {
-        setImgSrc(defaultImage || '/images/logo-main.png');
+        setImgSrc(defaultImage || logo);
       }}
       alt={alt}
       quality={100}

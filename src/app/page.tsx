@@ -1,3 +1,4 @@
+'use client';
 import HomeContainer from '@/container/Home';
 import HomePageStoreProvider from '@/container/Home/context';
 

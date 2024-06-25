@@ -3,11 +3,26 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply bg-layer-1 text-white;
+  }
 }
 
 @layer components {
+  .btn-primary {
+    @apply font-mono rounded-lg h-10 flex justify-center items-center font-semibold border-none text-[18px] text-semi-black bg-primary hover:bg-primary-hover hover:!text-semi-black;
+  }
+
+  .btn-secondary {
+    @apply font-mono rounded-lg h-10 flex justify-center items-center text-[18px] font-semibold text-secondary border-none bg-layer-3 hover:bg-layer-focus hover:!text-secondary;
+  }
+
+  .btn-ghost {
+    @apply font-mono rounded-lg h-10 flex justify-center items-center text-[18px] font-semibold text-secondary !border-stroke hover:!bg-layer-focus hover:!text-secondary;
+  }
+
   .layout-container {
-    @apply max-w-[1700px] mx-auto px-[16px] sm:px-[24px];
+    @apply font-mono max-w-[1400px] mx-auto px-[16px] sm:px-[24px];
   }
 
   .three_dot_2_line {
