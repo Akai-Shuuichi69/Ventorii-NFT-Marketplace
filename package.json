@@ -12,11 +12,15 @@
   },
   "dependencies": {
     "@next/third-parties": "^14.2.4",
+    "@starknet-react/core": "^2.8.3",
     "antd": "^5.18.1",
     "axios": "^1.7.2",
     "next": "14.2.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "sass": "^1.77.6",
+    "starknet": "^5.24.3",
+    "starknetkit": "^1.1.9"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",

@@ -1,3 +1,4 @@
+import IconClose from '@/assets/icons/IconClose';
 import { Modal, ModalProps } from 'antd';
 import React, { useEffect } from 'react';
 
@@ -20,6 +21,7 @@ const CustomModal = ({
       destroyOnClose={destroyOnClose}
       className={`custom-modal ${className}`}
       getContainer={getContainer}
+      closeIcon={<IconClose />}
       {...props}
     >
       {children}

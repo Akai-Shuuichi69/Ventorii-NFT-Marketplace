@@ -14,7 +14,7 @@
   }
 
   .btn-secondary {
-    @apply font-mono rounded-lg h-10 flex justify-center items-center text-[18px] font-semibold text-secondary border-none bg-layer-3 hover:bg-layer-focus hover:!text-secondary;
+    @apply font-mono rounded-lg h-10 flex justify-center items-center text-[18px] font-semibold text-secondary border-none bg-layer-3 hover:bg-layer-focus hover:!text-black;
   }
 
   .btn-ghost {

@@ -5,7 +5,7 @@ import logo from '../../public/images/logo.png';
 import { useAccount } from '@starknet-react/core';
 import { useStore } from '@/context/store';
 
-const CardMarketplace = ({ setOpenModalBuyNTF }: any) => {
+const CardProfile = ({ setModalListNFT }: any) => {
   const { isConnected } = useAccount();
   const { connectWallet } = useStore();
   return (
@@ -26,11 +26,11 @@ const CardMarketplace = ({ setOpenModalBuyNTF }: any) => {
                   connectWallet();
                   return;
                 }
-                setOpenModalBuyNTF(true);
+                setModalListNFT(true);
               }}
               className='btn-primary flex-1'
             >
-              Buy
+              List for sale
             </CustomButton>
           </div>
         </div>
@@ -50,4 +50,4 @@ const CardMarketplace = ({ setOpenModalBuyNTF }: any) => {
   );
 };
 
-export default CardMarketplace;
+export default CardProfile;

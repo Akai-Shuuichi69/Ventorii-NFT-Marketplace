@@ -5,8 +5,14 @@ import React from 'react';
 interface ICustomInputProps extends InputProps {}
 interface ICustomTextAreaProps extends TextAreaProps {}
 
-const CustomInput = ({ size = 'large', ...props }: ICustomInputProps) => {
-  return <Input size={size} {...props} />;
+const CustomInput = ({
+  size = 'large',
+  className,
+  ...props
+}: ICustomInputProps) => {
+  return (
+    <Input className={'custom-input ' + className} size={size} {...props} />
+  );
 };
 
 const PasswordInput = ({ size = 'large', ...props }: ICustomInputProps) => (
