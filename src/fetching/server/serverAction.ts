@@ -8,7 +8,7 @@ export const revalidateProduct = async () => {
 export const fetchProduct = async () => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BE_DOMAIN}/product/all`,
+      `${process.env.NEXT_PUBLIC_BE_URL}/product/all`,
       {
         method: 'GET',
         next: {

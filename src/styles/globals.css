@@ -21,6 +21,11 @@
     @apply font-mono rounded-lg h-10 flex justify-center items-center text-[18px] font-semibold text-secondary !border-stroke hover:!bg-layer-focus hover:!text-secondary;
   }
 
+  button.btn-primary[disabled],
+  button.btn-secondary[disabled] {
+    @apply bg-layer-3 text-tertiary bg-none hover:!text-tertiary;
+  }
+
   .layout-container {
     @apply font-mono max-w-[1400px] mx-auto px-[16px] sm:px-[24px];
   }

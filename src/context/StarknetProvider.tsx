@@ -8,13 +8,12 @@ import {
   publicProvider,
   braavos,
   argent,
+  jsonRpcProvider,
 } from '@starknet-react/core';
-import { mainnet } from '@starknet-react/chains';
+import { sepolia } from '@starknet-react/chains';
 
 export function StarknetProvider({ children }: { children: React.ReactNode }) {
-  const chains = [mainnet];
-
-  const provider = publicProvider();
+  // const provider = publicProvider();
 
   const connectors = useMemo(() => {
     return [
@@ -27,8 +26,12 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <StarknetConfig
-      chains={chains}
-      provider={provider}
+      chains={[sepolia]}
+      provider={jsonRpcProvider({
+        rpc: () => ({
+          nodeUrl: 'https://starknet-sepolia.public.blastapi.io/rpc/v0_7',
+        }),
+      })}
       connectors={connectors}
       autoConnect
     >

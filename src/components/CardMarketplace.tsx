@@ -1,11 +1,10 @@
 import React from 'react';
 import CustomImage from './custom/CustomImage';
 import CustomButton from './custom/CustomButton';
-import logo from '../../public/images/logo.png';
 import { useAccount } from '@starknet-react/core';
 import { useStore } from '@/context/store';
 
-const CardMarketplace = ({ setOpenModalBuyNTF }: any) => {
+const CardMarketplace = ({ setOpenModalBuyNTF, data, setSelectedNFT }: any) => {
   const { isConnected } = useAccount();
   const { connectWallet } = useStore();
   return (
@@ -14,7 +13,8 @@ const CardMarketplace = ({ setOpenModalBuyNTF }: any) => {
         <div className='relative'>
           <div className='aspect-square w-full overflow-hidden relative rounded-lg'>
             <CustomImage
-              src={logo}
+              src={data?.image}
+              fill
               alt='Nft'
               className='object-cover w-full h-full group-hover:scale-110 !transition !duration-300 !ease-in-out group-hover:blur-sm'
             />
@@ -26,6 +26,7 @@ const CardMarketplace = ({ setOpenModalBuyNTF }: any) => {
                   connectWallet();
                   return;
                 }
+                setSelectedNFT(data);
                 setOpenModalBuyNTF(true);
               }}
               className='btn-primary flex-1'
@@ -36,12 +37,14 @@ const CardMarketplace = ({ setOpenModalBuyNTF }: any) => {
         </div>
         <div className='flex flex-col space-y-1'>
           <span className='text-white text-base font-medium leading-6 truncate'>
-            Hello
+            {data?.name}
           </span>
           <div className='flex justify-between leading-[18px]'>
             <span className='text-secondary text-xs font-medium'>Price</span>
             <div className='flex items-center space-x-1'>
-              <span className='text-white text-xs font-medium'>100 STRK</span>
+              <span className='text-white text-xs font-medium'>
+                {data?.price} DCOIN
+              </span>
             </div>
           </div>
         </div>

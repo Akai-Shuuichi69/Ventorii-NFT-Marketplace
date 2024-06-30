@@ -12,3 +12,5 @@ export const handleCopy = async (text: string, setCopied: any) => {
     console.error('Failed to copy text: ', err);
   }
 };
+
+export const dcoinFomart = (value: bigint) => Number(value) / 10 ** 18;
