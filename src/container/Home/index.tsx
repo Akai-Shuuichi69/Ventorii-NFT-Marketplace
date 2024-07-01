@@ -8,11 +8,14 @@ import { collectionData } from '@/fetching/client/mint';
 import { toastError } from '@/utils/toast';
 import useMounted from '@/hook/useMounted';
 import { listedNFT } from '@/fetching/client/home';
+import { useStore } from '@/context/store';
+import ModalCancelListNFT from '@/components/modal/ModalCancelListNFT';
 
 const HomeContainer = () => {
   const [openModalBuyNTF, setOpenModalBuyNTF] = useState(false);
+  const [openModalCancelListNFT, setOpenModalCancelListNFT] = useState(false);
   const [collection, setCollection] = useState<any>([]);
-  const [listedNFTData, setListedNFTData] = useState<any>([]);
+  const { listedNFTData, setListedNFTData } = useStore();
   const { isMounted } = useMounted();
   const [selectedNFT, setSelectedNFT] = useState<any>(null);
 
@@ -46,6 +49,13 @@ const HomeContainer = () => {
         }}
         selectedNFT={selectedNFT}
       />
+      <ModalCancelListNFT
+        open={openModalCancelListNFT}
+        onCancel={() => {
+          setOpenModalCancelListNFT(false);
+        }}
+        data={selectedNFT}
+      />
       <h1 className='text-[32px] font-[700]  mb-[2rem]'>Mint Now</h1>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[1rem]'>
         {collection?.map((item: any) => (
@@ -64,6 +74,7 @@ const HomeContainer = () => {
             <CardMarketplace
               data={item}
               setOpenModalBuyNTF={setOpenModalBuyNTF}
+              setOpenModalCancelListNFT={setOpenModalCancelListNFT}
               setSelectedNFT={setSelectedNFT}
             />
           </div>

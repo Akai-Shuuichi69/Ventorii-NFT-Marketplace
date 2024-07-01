@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import CustomImage from './custom/CustomImage';
+import { formatToken } from '@/utils';
 
 const CardMint = ({ data }: any) => {
   return (
@@ -26,7 +27,11 @@ const CardMint = ({ data }: any) => {
             <div className=' bg-layer-3 text-xs font-medium text-secondary rounded-lg text-center py-2 px-3'>
               <div className='flex justify-between mt-1'>
                 <div>Price</div>
-                <div>{data?.mint_price} DCOIN</div>
+                <div>
+                  {data?.mint_price + " "}
+                    
+                  DCOIN
+                </div>
               </div>
             </div>
           </div>

@@ -9,12 +9,15 @@ import { useAccount, useProvider } from '@starknet-react/core';
 import { useStore } from '@/context/store';
 import { toastError, toastSuccess } from '@/utils/toast';
 import { Contract } from 'starknet';
+import { listedNFT, refreshListing } from '@/fetching/client/home';
+import { usePathname } from 'next/navigation';
 
-const ModalCancelListNFT = ({ open, onCancel, data }: any) => {
+const ModalCancelListNFT = ({ open, onCancel, data, getProfile }: any) => {
   const { isConnected, account, address } = useAccount();
-  const { connectWallet } = useStore();
+  const { connectWallet, setListedNFTData } = useStore();
   const { provider } = useProvider();
   const [loading, setLoading] = useState(false);
+  const path = usePathname();
 
   const TOKEN_ID = data?.token_id;
 
@@ -38,6 +41,12 @@ const ModalCancelListNFT = ({ open, onCancel, data }: any) => {
       marketContract.connect(account as any);
       const tx = await marketContract.cancel_listing(TOKEN_ID);
       await provider.waitForTransaction(tx?.transaction_hash as any);
+      await refreshListing({ token_id: TOKEN_ID });
+      path.includes('/profile') && (await getProfile());
+      if (path === '/') {
+        const newListedNfts = await listedNFT();
+        setListedNFTData(newListedNfts?.data?.data);
+      }
       toastSuccess('Cancel List success');
       onCancel();
     } catch (err) {

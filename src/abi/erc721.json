@@ -481,7 +481,7 @@
       },
       {
         "name": "supply",
-        "type": "core::integer::u64"
+        "type": "core::integer::u256"
       }
     ],
     "outputs": [],
@@ -526,7 +526,23 @@
     ],
     "outputs": [
       {
-        "type": "core::integer::u64"
+        "type": "core::integer::u256"
+      }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "name": "get_mint_max",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "pool_mint",
+        "type": "core::integer::u8"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::integer::u256"
       }
     ],
     "state_mutability": "view"
@@ -546,6 +562,34 @@
       }
     ],
     "state_mutability": "view"
+  },
+  {
+    "name": "get_mint_price",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "pool_mint",
+        "type": "core::integer::u8"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::integer::u256"
+      }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "name": "withdraw",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "amount",
+        "type": "core::integer::u256"
+      }
+    ],
+    "outputs": [],
+    "state_mutability": "external"
   },
   {
     "name": "mint_public",

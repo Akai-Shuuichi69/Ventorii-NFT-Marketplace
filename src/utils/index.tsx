@@ -13,4 +13,11 @@ export const handleCopy = async (text: string, setCopied: any) => {
   }
 };
 
-export const dcoinFomart = (value: bigint) => Number(value) / 10 ** 18;
+export const formatToken = (value: BigInt, decimals: number = 18) => {
+  const formattedValue = Number(value) / Math.pow(10, decimals);
+  if (Number.isInteger(formattedValue)) {
+    return formattedValue.toString();
+  } else {
+    return parseFloat(formattedValue.toFixed(10)).toString();
+  }
+};

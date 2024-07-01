@@ -11,14 +11,20 @@ import IconCopy from '@/assets/icons/IconCopy';
 import { useStore } from '@/context/store';
 import { CallData, Contract, cairo } from 'starknet';
 import { toastError, toastSuccess } from '@/utils/toast';
+import {
+  listedNFT,
+  refreshListing,
+  refreshOwner,
+} from '@/fetching/client/home';
 
 const ModalBuyNFT = ({ open, onCancel, selectedNFT }: any) => {
   const [text, copy] = useCopyToClipboard();
 
   const { isConnected, account, address } = useAccount();
-  const { connectWallet } = useStore();
+  const { connectWallet, getDcoin } = useStore();
   const { provider } = useProvider();
   const [loading, setLoading] = useState(false);
+  const { setListedNFTData } = useStore();
 
   const TOKEN_ID = selectedNFT?.token_id;
   const NFT_PRICE = selectedNFT?.price;
@@ -47,7 +53,7 @@ const ModalBuyNFT = ({ open, onCancel, selectedNFT }: any) => {
         process.env.NEXT_PUBLIC_MARKET_CONTRACT_ADDRESS as string
       );
 
-      const isNeedToApprove = Number(allowance) < NFT_PRICE * 10 ** 18;
+      const isNeedToApprove = Number(allowance) < NFT_PRICE;
 
       const tx = await account?.execute([
         ...(!isNeedToApprove
@@ -75,6 +81,11 @@ const ModalBuyNFT = ({ open, onCancel, selectedNFT }: any) => {
       ]);
 
       await provider.waitForTransaction(tx?.transaction_hash as any);
+      getDcoin();
+      await refreshOwner({ token_id: TOKEN_ID }); // to get newest profile
+      await refreshListing({ token_id: TOKEN_ID }); // to get newest listed nft
+      const newListedNfts = await listedNFT();
+      setListedNFTData(newListedNfts?.data?.data);
       toastSuccess('Buy success!');
       onCancel();
     } catch (err) {

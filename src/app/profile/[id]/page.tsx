@@ -21,19 +21,20 @@ const Profile = () => {
   });
   const [selectedNFT, setSelectedNFT] = useState<any>(null);
 
+  const getProfile = async () => {
+    try {
+      const profileResponse: any = await profile();
+      const data = profileResponse?.data?.data;
+      console.log(profileResponse);
+      setProfileData(data);
+    } catch (err) {
+      toastError('Get profile failed');
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     if (!address || !isExistTokenInStorage) return;
-
-    const getProfile = async () => {
-      try {
-        const profileResponse: any = await profile();
-        const data = profileResponse?.data?.data;
-        setProfileData(data);
-      } catch (err) {
-        toastError('Get profile failed');
-        console.log(err);
-      }
-    };
 
     getProfile();
   }, [address, isExistTokenInStorage]);
@@ -46,6 +47,7 @@ const Profile = () => {
           setOpenModalListNFT(false);
         }}
         data={selectedNFT}
+        getProfile={getProfile}
       />
       <ModalCancelListNFT
         open={openModalCancelListNFT}
@@ -53,6 +55,7 @@ const Profile = () => {
           setOpenModalCancelListNFT(false);
         }}
         data={selectedNFT}
+        getProfile={getProfile}
       />
       <h1 className='text-[32px] font-[700] mb-[2rem] mt-[5rem]'>Profile</h1>
       <div className='flex items-center gap-[1rem] mb-[3rem]'>

@@ -17,14 +17,16 @@ import erc20ABI from '@/abi/erc20.json';
 import useMounted from '@/hook/useMounted';
 import { collectionData } from '@/fetching/client/mint';
 import CustomProgress from '@/components/custom/CustomProgress';
+import { formatToken } from '@/utils';
 
 const Mint = () => {
   const { isConnected, account, address } = useAccount();
-  const { connectWallet } = useStore();
+  const { connectWallet, getDcoin } = useStore();
   const { provider } = useProvider();
   const [loading, setLoading] = useState(false);
   const [collection, setCollection] = useState<any>([]);
   const { isMounted } = useMounted();
+  const [remainingPool, setRemainingPool] = useState<any>(0);
 
   useEffect(() => {
     if (!isMounted) return;
@@ -45,24 +47,40 @@ const Mint = () => {
   }, [isMounted]);
 
   const MINT_PRICE = collection?.mint_price;
+
   const TOTAL_POOL_MINT = 100;
 
-  const remainingPool = useContractRead({
-    functionName: 'get_remaining_mint',
-    args: [1],
-    abi: erc721ABI,
-    address: process.env.NEXT_PUBLIC_ERC721_CONTRACT_ADDRESS,
-    watch: true,
-  });
-
-  // useEffect(() => {
-  //   console.log(Number(remainingPool?.data));
-  // }, [remainingPool]);
+  // const remainingPool = useContractRead({
+  //   functionName: 'get_remaining_mint',
+  //   args: [1],
+  //   abi: erc721ABI,
+  //   address: process.env.NEXT_PUBLIC_ERC721_CONTRACT_ADDRESS,
+  //   watch: true,
+  // });
 
   const { contract: erc20Contract } = useContract({
     abi: erc20ABI,
     address: process.env.NEXT_PUBLIC_ERC20_CONTRACT_ADDRESS,
   });
+
+  const { contract: erc721Contract } = useContract({
+    abi: erc721ABI,
+    address: process.env.NEXT_PUBLIC_ERC721_CONTRACT_ADDRESS,
+  });
+
+  const getRemainingPool = async () => {
+    const remainingPool = await erc721Contract?.get_remaining_mint(1);
+    // console.log('here', Number(remainingPool));
+    setRemainingPool(remainingPool);
+  };
+
+  useEffect(() => {
+    getRemainingPool();
+    const interval = setInterval(() => {
+      getRemainingPool();
+    }, 180000);
+    return () => clearInterval(interval);
+  }, []);
 
   const onMint = async () => {
     if (!isConnected) {
@@ -79,6 +97,7 @@ const Mint = () => {
       );
 
       const isNeedToApprove = Number(allowance) < MINT_PRICE * 10 ** 18;
+      console.log(isNeedToApprove);
 
       const tx = await account?.execute([
         ...(!isNeedToApprove
@@ -107,6 +126,8 @@ const Mint = () => {
 
       await provider.waitForTransaction(tx?.transaction_hash as any);
       toastSuccess('Mint success');
+      getDcoin();
+      getRemainingPool();
       console.log('tx hash', tx);
     } catch (err) {
       console.log(err);
@@ -127,17 +148,14 @@ const Mint = () => {
           <div className='flex items-center justify-between mt-[1rem]'>
             <p>Minted Item</p>
             <p>
-              {remainingPool?.data
-                ? TOTAL_POOL_MINT - Number(remainingPool?.data)
-                : 0}
-              /{TOTAL_POOL_MINT}
+              {remainingPool ? TOTAL_POOL_MINT - Number(remainingPool) : 0}/
+              {TOTAL_POOL_MINT}
             </p>
           </div>
           <CustomProgress
             showInfo={false}
             percent={
-              ((TOTAL_POOL_MINT - Number(remainingPool?.data)) /
-                TOTAL_POOL_MINT) *
+              ((TOTAL_POOL_MINT - Number(remainingPool)) / TOTAL_POOL_MINT) *
               100
             }
           />
