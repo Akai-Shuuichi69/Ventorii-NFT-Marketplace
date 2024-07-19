@@ -9,7 +9,7 @@ const Loading = () => {
       <CustomImage
         src='/images/logo.png'
         alt='loading'
-        className='animate-spin'
+        className='animate-bounce'
         width={100}
         height={100}
       />
